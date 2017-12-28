@@ -22,6 +22,8 @@ services:
     php:
         build: docker/etc/php
         restart: always
+        depends_on:
+            - mailcatcher
         volumes:
             - "./docker/etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
             - "./:/var/www/html"

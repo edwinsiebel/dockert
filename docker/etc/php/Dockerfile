@@ -2,7 +2,7 @@ FROM php:7.1-fpm
 MAINTAINER Wouter De Schuyter <wouter.de.schuyter@gmail.com>
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip wget curl apt-utils libssl-dev openssh-server zip unzip sudo
+    apt-get install -y --no-install-recommends nano git zip wget curl apt-utils libssl-dev openssh-server zip unzip sudo
 
 # Some basic extensions
 RUN docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql mysqli

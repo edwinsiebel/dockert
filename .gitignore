@@ -1,5 +1,6 @@
 docker/etc/nginx/default.conf
 .idea/*
+logs
 htdocs/wp/*
 htdocs/wp-content/debug.log
 htdocs/wp-content/db.php
@@ -10,7 +11,6 @@ htdocs/wp-content/themes/**/node_modules/
 htdocs/wp-content/themes/**/vendor/
 htdocs/wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 htdocs/wp-content/uploads/
-logs/*.log
 vendor/*
 exports/*
 update

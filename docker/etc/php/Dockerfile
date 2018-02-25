@@ -1,23 +1,17 @@
-FROM php:7.1-fpm
-MAINTAINER Wouter De Schuyter <wouter.de.schuyter@gmail.com>
+FROM php:7.0.26-fpm
+MAINTAINER Edwin Siebel <edwin@yard.nl>
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends nano git zip wget curl apt-utils libssl-dev openssh-server zip unzip sudo
 
-# Some basic extensions
-#RUN docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql mysqli
-
 # Curl
 RUN apt-get install -y libcurl4-openssl-dev
-#RUN docker-php-ext-install -j$(nproc) curl
 
 # GD
 RUN apt-get install -y libpng-dev libjpeg-dev
-#RUN docker-php-ext-install -j$(nproc) gd
 
 # Intl
 RUN apt-get install -y libicu-dev
-#RUN docker-php-ext-install -j$(nproc) intl
 
 # Composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
@@ -29,11 +23,6 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
 
 # ZSH
 RUN ["apt-get", "install", "-y", "zsh"]
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-
-#RUN useradd -m -s /bin/bash www-data && echo www-data:www-data | chpasswd
-#RUN usermod -aG www-data --gid 1000 www-data
-#RUN sudo adduser www-data sudo
 
 # Change www-data user to match the host system UID and GID and chown www directory
 RUN usermod --non-unique --uid 1000 www-data \
@@ -49,3 +38,11 @@ USER www-data
 WORKDIR /var/www
 
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+RUN mkdir -p /var/www/.ssh
+
+#COPY  ~/.ssh/id_rsa /var/www/.ssh/id_rsa                                             
+RUN chmod 700 /var/www/.ssh
+
+RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /var/www/.ssh/config
+RUN echo "    IdentityFile ~/.ssh/id_rsa" >> /var/www/.ssh/ssh_config

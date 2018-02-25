@@ -18,19 +18,20 @@ services:
         depends_on:
             - php
             - mysql
-        container_name: dockert_nginx
+        container_name: ${NGINX_HOST}_nginx
     php:
         build: docker/etc/php
         restart: always
         depends_on:
             - mailcatcher
         volumes:
+            - "~/.ssh/:/var/www/.ssh"
             - "./docker/etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
             - "./:/var/www/html"
-        container_name: dockert_php
+        container_name: ${NGINX_HOST}_php
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: dockert_phpmyadmin
+        container_name: ${NGINX_HOST}_phpmyadmin
         ports:
             - "8080:80"
         environment:
@@ -54,7 +55,7 @@ services:
             - "8989:3306"
         volumes:
             - "./docker/storage/db/mysql:/var/lib/mysql"
-        container_name: dockert_mysql
+        container_name: ${NGINX_HOST}_mysql
     mailcatcher:
         image: schickling/mailcatcher
         restart: always
@@ -63,4 +64,4 @@ services:
           - '1080:1080'
         environment:
           MAILCATCHER_PORT: 1025
-        container_name: dockert_mailcatcher
+        container_name: ${NGINX_HOST}_mailcatcher

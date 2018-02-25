@@ -14,6 +14,7 @@ help:
 	@echo "  code-sniff          Check the API with PHP Code Sniffer (PSR2)"
 	@echo "  clean               Clean directories for reset"
 	@echo "  composer-up         Update PHP dependencies with composer"
+	@echo "  docker-ssh          SSH into container"
 	@echo "  docker-start        Create and start containers"
 	@echo "  docker-stop         Stop and clear all services"
 	@echo "  gen-certs           Generate SSL certificates"
@@ -47,6 +48,9 @@ composer-up:
 
 docker-start: init
 	docker-compose up -d
+
+docker-ssh:
+	@docker exec -it php /bin/bash
 
 docker-stop:
 	@docker-compose down -v
